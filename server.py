@@ -60,6 +60,7 @@ class WorkerManager():
         d = {"start": start, "end": end, "path": path}
         return json.dumps(d, indent=4)  
 
+    # Logic from https://github.com/stong1108/WikiRacer
     def find_shortest_path(self,start, end):
         path = Manager().dict()
         path[start] = [start]
