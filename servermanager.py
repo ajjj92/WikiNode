@@ -18,8 +18,8 @@ class Node:
 
 class ServerManager():
     def __init__(self):
-        self.nodes = [Node('0.0.0.0', '9100')]
-        self.supported_methods = ['find_path']
+        self.nodes = []
+        self.supported_methods = ['find_path','attach','detach']
         self.secretstring = 'abbcvfffd32xXx123'
 
 
@@ -87,12 +87,17 @@ class ServerManager():
         if(self.secretstring == validationstring):
             self.nodes.append(Node(node['host'], node['port']))
             print("Attached node {} {}".format(node['host'],node['port']))
+
             return str("OK")
         else:
             return 'Validation error'
+
     def detach(self,node,validationstring):
         if(self.secretstring == validationstring):
-            self.nodes = [attached_node for attached_node  in self.nodes if attached_node.host != node['host'] and attached_node.port  != node['port']]
+            # self.nodes = [attached_node for attached_node  in self.nodes if attached_node.host != node['host'] and attached_node.port  != node['port']]
+            for i in range(len(self.nodes)):
+                if(self.nodes[i].host == node['host'] and self.nodes[i].port == node['port']):
+                    self.nodes.pop(i)
             print("Detached node {} {}".format(node['host'],node['port']))
             return "OK"
         else:
